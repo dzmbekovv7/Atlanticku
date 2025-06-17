@@ -1,8 +1,7 @@
-import { useGetArticles } from '@/hooks/useArticles'
 import { Container } from './container'
 import {  Sparkles } from 'lucide-react'; // если используешь Lucide React иконки
 import { useLocation, Link } from 'react-router';
-import { useMemo} from 'react';
+import { useMemo, useState, useEffect} from 'react';
 
 function FitnessAltitudeLogo() {
 
@@ -29,15 +28,20 @@ function FitnessAltitudeLogo() {
 }
 
 export function Header() {
-	const { data: articles, isLoading } = useGetArticles()
-	const types = [...new Set(articles?.map(article => article.type))]
 	  const location = useLocation();
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [mobileMenuOpen]);
+
   const isSpecialBg = useMemo(() => location.pathname === '/contacts' || location.pathname === '/blog' , [location.pathname]);
   const headerBg = isSpecialBg
     ? 'bg-gradient-to-br bg-gray-950'
     : 'bg-gradient-to-br from-white via-indigo-50 to-purple-50 ';
-  const textColor = isSpecialBg ? 'text-white' : 'text-gray-900';
-  const linkHoverColor = isSpecialBg ? 'hover:text-violet-400' : 'hover:text-indigo-600';
 	return (
 		<header className={`relative bg-gradient-to-br ${headerBg} overflow-hidden`}>
 			{/* Dynamic floating particles */}
@@ -48,65 +52,184 @@ export function Header() {
 				<div className="absolute top-1/2 right-1/6 w-12 h-12 border-2 border-cyan-400 transform rotate-45 opacity-10 animate-spin-slow"></div>
 			</div>
 
-			<Container>
-		<div className="relative z-10 py-6 lg:py-8">
-  <div className="flex flex-col space-y-8">
+	 
+    <Container>
+      <div className="relative z-20 py-5 lg:py-8 max-w-5xl mx-auto flex items-center justify-between px-6">
 
-    {/* Верхняя панель с линками и логотипом */}
-    <div className="flex items-center justify-between w-full max-w-4xl mx-auto px-6">
+        {/* Линки слева - скрыты на мобилках */}
+        <nav className="hidden md:flex gap-4 w-1/4">
+          <Link
+            to="/about"
+            className="px-4 py-2 text-sm font-bold text-white rounded-lg bg-gradient-to-r from-purple-600 to-violet-700 shadow-md hover:shadow-xl transition-all duration-300"
+          >
+            About
+          </Link>
+          <Link
+            to="/"
+            className="px-4 py-2 text-sm font-bold text-white rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 shadow-md hover:shadow-xl transition-all duration-300"
+          >
+            Home
+          </Link>
+        </nav>
 
-      {/* Линки слева */}
-      <div className="flex gap-4">
-        <Link
-          to="/about"
-          className="px-4 py-2 text-sm font-bold text-white rounded-lg bg-gradient-to-r from-purple-600 to-violet-700 shadow-md hover:shadow-xl transition-all duration-300"
+        {/* Title по центру */}
+        <div className="flex justify-center flex-grow">
+          <div className="relative">
+            <div className="absolute -top-3 -left-3 w-20 h-20 bg-gradient-to-br from-violet-500/10 to-pink-500/10 transform rotate-45 opacity-60"></div>
+            <FitnessAltitudeLogo />
+          </div>
+        </div>
+
+        {/* Линки справа - скрыты на мобилках */}
+        <nav className="hidden md:flex gap-4 w-1/4 justify-end">
+          <Link
+            to="/contacts"
+            className="px-4 py-2 text-sm font-bold text-white rounded-lg bg-gradient-to-r from-rose-500 to-pink-500 shadow-md hover:shadow-xl transition-all duration-300"
+          >
+            Contact
+          </Link>
+          <Link
+            to="/blog"
+            className="px-4 py-2 text-sm font-bold text-white rounded-lg bg-gradient-to-r from-amber-500 to-yellow-400 shadow-md hover:shadow-xl transition-all duration-300"
+          >
+            Blog
+          </Link>
+        </nav>
+
+        {/* Кнопка гамбургера на мобилках */}
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          aria-label="Open mobile menu"
         >
-          About
-        </Link>
-        <Link
-          to="/"
-          className="px-4 py-2 text-sm font-bold text-white rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 shadow-md hover:shadow-xl transition-all duration-300"
-        >
-          Home
-        </Link>
+          <svg
+            className="w-7 h-7 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
       </div>
 
-      {/* Логотип по центру */}
-      <div className="relative">
-        {/* Геометрический фон */}
-        <div className="absolute -top-3 -left-3 w-20 h-20 bg-gradient-to-br from-violet-500/10 to-pink-500/10 transform rotate-45 opacity-60"></div>
-        <FitnessAltitudeLogo />
-      </div>
+      {/* Мобильное меню на весь экран */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-gradient-to-tr from-indigo-900 via-purple-900 to-pink-900 overflow-hidden">
 
-      {/* Линки справа */}
-      <div className="flex gap-4">
-        <Link
-          to="/contacts"
-          className="px-4 py-2 text-sm font-bold text-white rounded-lg bg-gradient-to-r from-rose-500 to-pink-500 shadow-md hover:shadow-xl transition-all duration-300"
-        >
-          Contact
-        </Link>
-        <Link
-          to="/blog"
-          className="px-4 py-2 text-sm font-bold text-white rounded-lg bg-gradient-to-r from-amber-500 to-yellow-400 shadow-md hover:shadow-xl transition-all duration-300"
-        >
-          Blog
-        </Link>
-		
-      </div>
-    </div>
+          {/* Анимированные круги и линии (CSS-анимация) */}
+          <svg
+            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <circle
+              cx="30%"
+              cy="30%"
+              r="80"
+              stroke="rgba(255, 255, 255, 0.15)"
+              strokeWidth="2"
+              fill="none"
+              className="animate-pulseSlow"
+            />
+            <circle
+              cx="70%"
+              cy="70%"
+              r="100"
+              stroke="rgba(255, 255, 255, 0.1)"
+              strokeWidth="3"
+              fill="none"
+              className="animate-pulseSlow delay-500"
+            />
+            <line
+              x1="10%"
+              y1="90%"
+              x2="90%"
+              y2="10%"
+              stroke="rgba(255,255,255,0.05)"
+              strokeWidth="1"
+              className="animate-lineMove"
+            />
+            <line
+              x1="50%"
+              y1="0%"
+              x2="50%"
+              y2="100%"
+              stroke="rgba(255,255,255,0.05)"
+              strokeWidth="1"
+              className="animate-lineMove delay-700"
+            />
+          </svg>
 
+          {/* Кнопка закрытия */}
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="absolute top-6 right-6 text-white p-3 rounded-full hover:bg-white/20 transition"
+            aria-label="Close mobile menu"
+          >
+            <svg
+              className="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
 
-    {/* Декоративная линия снизу */}
-    <div className="flex justify-center space-x-4">
-      <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-violet-500 to-transparent"></div>
-      <div className="w-1 h-1 bg-violet-500 transform rotate-45"></div>
-      <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-pink-500 to-transparent"></div>
-    </div>
-  </div>
-</div>
+          {/* Меню - кнопки по центру */}
+          <nav className="flex flex-col items-center justify-center min-h-screen gap-12 px-6 text-white text-3xl font-semibold">
+            <Link onClick={() => setMobileMenuOpen(false)} to="/about" className="hover:text-cyan-400 transition">
+              About
+            </Link>
+            <Link onClick={() => setMobileMenuOpen(false)} to="/" className="hover:text-cyan-400 transition">
+              Home
+            </Link>
+            <Link onClick={() => setMobileMenuOpen(false)} to="/contacts" className="hover:text-cyan-400 transition">
+              Contact
+            </Link>
+            <Link onClick={() => setMobileMenuOpen(false)} to="/blog" className="hover:text-cyan-400 transition">
+              Blog
+            </Link>
+          </nav>
+        </div>
+      )}
 
-			</Container>
+      <style>{`
+        @keyframes pulseSlow {
+          0%, 100% {
+            opacity: 0.2;
+          }
+          50% {
+            opacity: 0.6;
+          }
+        }
+        .animate-pulseSlow {
+          animation: pulseSlow 6s ease-in-out infinite;
+        }
+        @keyframes lineMove {
+          0% {
+            stroke-dashoffset: 1000;
+          }
+          100% {
+            stroke-dashoffset: 0;
+          }
+        }
+        .animate-lineMove {
+          stroke-dasharray: 1000;
+          animation: lineMove 8s linear infinite;
+        }
+        .delay-500 {
+          animation-delay: 0.5s;
+        }
+        .delay-700 {
+          animation-delay: 0.7s;
+        }
+      `}</style>
+    </Container>
 
 			{/* Add custom styles */}
 			<style>{`
