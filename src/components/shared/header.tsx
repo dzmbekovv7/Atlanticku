@@ -18,7 +18,7 @@ function FitnessAltitudeLogo() {
     {/* Название логотипа */}
     <div className="text-2xl font-extrabold tracking-wider flex items-center gap-1">
       <span className="text-gray-900">Atlan</span>
-      <span className="text-pink-500">ticku</span>
+      <span className="text-pink-500">tisku</span>
     </div>
   </div>
 </div>
