@@ -221,10 +221,10 @@ export function AboutPage() {
     desc: "Specialist in neural network design and LLMs. Ava brings the latest AI models into real-world products.",
     image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=150&h=150&auto=format&fit=crop&crop=face"
   },{
-    name: "Daniel Kim",
-    title: "Cloud Architect",
-    desc: "Designs resilient infrastructures using AWS and GCP. Passionate about automation and scaling digital ecosystems.",
-    image: "https://images.unsplash.com/photo-1610563166156-fb6d07ba2d44?q=80&w=150&h=150&auto=format&fit=crop&crop=face"
+  name: "Daniel Kim",
+  title: "Cloud Architect",
+  desc: "Designs resilient infrastructures using AWS and GCP. Passionate about automation and scaling digital ecosystems.",
+  image: "https://randomuser.me/api/portraits/men/75.jpg"
   },{
     name: "Sophia Lee",
     title: "Cybersecurity Analyst",
