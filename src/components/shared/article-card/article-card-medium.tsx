@@ -34,7 +34,7 @@ const ArticleCardMedium: React.FC<ArticleCardMediumProps> = ({ article }) => {
             {article.title}
           </h3>
 
-          <p className="text-gray-400 text-sm leading-relaxed line-clamp-2 font-light">
+          <p className="text-white text-sm leading-relaxed line-clamp-2 font-light">
             {article.summary}
           </p>
 
